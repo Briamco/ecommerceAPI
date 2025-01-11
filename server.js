@@ -42,7 +42,7 @@ app.post('/api/products', (req, res) => {
 })
 
 app.delete('/api/products/:id', (req, res) => {
-    const { id } = req.body
+    const id = parseInt(req.params.id, 10)
     const prodIndex = products.findIndex(prod => prod.id === id)
 
     if (prodIndex === -1) {
