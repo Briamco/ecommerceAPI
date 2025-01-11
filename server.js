@@ -31,6 +31,9 @@ app.post('/api/products', (req, res) => {
         title,
         price: `$${price}` || '$0.00',
     }
+
+    products.push(newProdcut)
+    res.status(201).json(newProdcut)
 })
 
 app.listen(PORT, () => {
