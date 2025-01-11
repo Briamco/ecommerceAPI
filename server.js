@@ -47,11 +47,11 @@ app.delete('/api/products/:id', (req, res) => {
     const prodIndex = products.findIndex(prod => prod.id === id)
 
     if (prodIndex === -1) {
-        return res.status(400).json({ error: "Este producto no existe" })
+        return res.status(404).json({ error: "Este producto no existe" })
     }
 
     products.slice(prodIndex, 1)
-    res.status(200).json({ message: `El produncto con la id: ${id} fue eliminado` })
+    res.status(204).json({ message: `El produncto con la id: ${id} fue eliminado` })
 })
 
 app.listen(PORT, () => {
