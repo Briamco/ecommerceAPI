@@ -49,7 +49,7 @@ app.delete('/api/products/:id', (req, res) => {
         return res.status(404).json({ error: "Este producto no existe" })
     }
 
-    products.slice(prodIndex, 1)
+    products.splice(prodIndex, 1)
     res.status(204).json({ message: `El produncto con la id: ${id} fue eliminado` })
 })
 
