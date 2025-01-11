@@ -28,7 +28,7 @@ app.post('/api/products', (req, res) => {
     } else if (isNaN(price)) {
         return res.status(400).json({ error: "El price debe ser un numero" })
     } else if (price <= 0) {
-        res.status(400).json({ error: "El price debe ser mayor a 0" })
+        return res.status(400).json({ error: "El price debe ser mayor a 0" })
     }
 
     const newProdcut = {
@@ -41,6 +41,34 @@ app.post('/api/products', (req, res) => {
     res.status(201).json(newProdcut)
 })
 
+app.put('/api/products/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10)
+    const { title, price } = req.body
+
+    const prodIndex = products.findIndex(prod => prod.id === id)
+
+    if (prodIndex === -1) {
+        return res.status(404).json({ error: "Este producto no existe" })
+    }
+
+    if (price) {
+        if (isNaN(price)) {
+            return res.status(400).json({ error: "El price debe ser un numero" })
+        } else if (price <= 0) {
+            return res.status(400).json({ error: "El price debe ser mayor a 0" })
+        }
+    }
+
+    const updateProduct = {
+        ...products[prodIndex],
+        title: title || products[prodIndex].title,
+        price: price || products[prodIndex].price,
+    }
+
+    products[prodIndex] = updateProduct
+    res.json(updateProduct)
+})
+
 app.delete('/api/products/:id', (req, res) => {
     const id = parseInt(req.params.id, 10)
     const prodIndex = products.findIndex(prod => prod.id === id)
@@ -50,7 +78,7 @@ app.delete('/api/products/:id', (req, res) => {
     }
 
     products.splice(prodIndex, 1)
-    res.status(204).json({ message: `El produncto con la id: ${id} fue eliminado` })
+    res.status(204).send(`El produncto con la id: ${id} fue eliminado`)
 })
 
 app.listen(PORT, () => {
