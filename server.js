@@ -1,9 +1,14 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const PORT = 3000
 const app = express()
 
 const products = []
+
+app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/api/products', (req, res) => {
     res.json(products)
